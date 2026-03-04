@@ -1,6 +1,6 @@
 ## Setup
 1. Git clone this repository into your Make Folder. 
-2. Create a file called for_loop_make.py r
+2. Create a file called for_loop_make.py 
 
 ## Instructions
 ## Warm-Up - TRY THIS FIRST BEFORE YOU DO THE SUBMISSION TASK!
