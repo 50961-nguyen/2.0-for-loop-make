@@ -13,7 +13,7 @@ Write a program that displays all the numbers divisible by 17 between 1 and 100.
     34 
     51 
     68 
-    85.
+    85
 
 ## FOR SUBMISSION:
 When the warm up program is working, modify the program to allow the user to change the number 17 to anything they want.
