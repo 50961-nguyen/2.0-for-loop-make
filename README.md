@@ -1,5 +1,5 @@
 ## Setup
-1. Git clone this repository into your Make Folder. 
+1. Git clone this repository into your Unit 2 Folder. 
 2. Create a file called for_loop_make.py 
 
 ## Instructions
