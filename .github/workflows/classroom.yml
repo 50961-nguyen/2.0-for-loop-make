@@ -1,0 +1,99 @@
+name: Autograding Tests
+
+on:
+  push:
+  workflow_dispatch:
+  repository_dispatch:
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Header docstring
+        id: header-docstring
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Header docstring (author, date, description)
+          setup-command: ""
+          command: pytest test_for_loop_make.py::test_header_comments
+          timeout: 5
+          max-score: 2
+
+      - name: IPO comments
+        id: ipo-comments
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Input / Processing / Output comments
+          setup-command: ""
+          command: pytest test_for_loop_make.py::test_ipo_comments
+          timeout: 5
+          max-score: 2
+
+      - name: Valid input 17
+        id: valid-17
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Multiples of 17
+          setup-command: ""
+          command: pytest test_for_loop_make.py::test_valid_input_17
+          timeout: 5
+          max-score: 2
+
+      - name: Valid input 25
+        id: valid-25
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Multiples of 25
+          setup-command: ""
+          command: pytest test_for_loop_make.py::test_valid_input_25
+          timeout: 5
+          max-score: 2
+
+      - name: Invalid above 100
+        id: invalid-above
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Invalid input above 100
+          setup-command: ""
+          command: pytest test_for_loop_make.py::test_invalid_above_100
+          timeout: 5
+          max-score: 1
+
+      - name: Invalid below 1
+        id: invalid-below
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Invalid input below 1
+          setup-command: ""
+          command: pytest test_for_loop_make.py::test_invalid_below_1
+          timeout: 5
+          max-score: 1
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          HEADER-DOCSTRING_RESULTS: "${{steps.header-docstring.outputs.result}}"
+          IPO-COMMENTS_RESULTS: "${{steps.ipo-comments.outputs.result}}"
+          VALID-17_RESULTS: "${{steps.valid-17.outputs.result}}"
+          VALID-25_RESULTS: "${{steps.valid-25.outputs.result}}"
+          INVALID-ABOVE_RESULTS: "${{steps.invalid-above.outputs.result}}"
+          INVALID-BELOW_RESULTS: "${{steps.invalid-below.outputs.result}}"
+        with:
+          runners: header-docstring,ipo-comments,valid-17,valid-25,invalid-above,invalid-below
